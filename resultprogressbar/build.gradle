@@ -1,10 +1,37 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    bintrayRepo = "ResultProgressBar"
+    bintrayName = "com.sadwyn.resultprogressbar"
+    libraryName = 'resultprogressbar'
+
+    publishedGroupId = 'com.sadwyn.resultprogressbar'
+    artifact = 'resultprogressbar'
+    libraryVersion = '1.0.0'
+    libraryDescription = 'This library provides easy to use and customizable Progress Bar for Android'
+    siteUrl = 'https://github.com/Sadwyn/ResultProgressBar'
+    gitUrl = 'https://github.com/Sadwyn/ResultProgressBar.git'
+    developerId = 'sadwyn'
+    developerName = 'Alexander Aleshchenko'
+    developerEmail = 'sadwyn@gmall.com'
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.Org/llcenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+bintray {
+    pkg {
+        userOrg = 'sadwyn'
+    }
+}
+
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.1"
 
     defaultConfig {
         minSdkVersion 21
@@ -21,8 +48,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }
@@ -39,4 +66,9 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+if(project.rootProject.file('local.properties').exists()) {
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 }
