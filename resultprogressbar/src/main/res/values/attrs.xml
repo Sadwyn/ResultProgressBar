@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ResultProgressBar">
+        <attr name="progressDrawable" format="reference" />
+        <attr name="successDrawable" format="reference" />
+        <attr name="failureDrawable" format="reference" />
+        <attr name="borderShape" format="reference" />
+        <attr name="progressDrawableMargin" format="dimension" />
+        <attr name="successDrawableMargin" format="dimension" />
+        <attr name="failureDrawableMargin" format="dimension" />
+        <attr name="progressSpeed" format="enum">
+            <enum name="slow" value="1600" />
+            <enum name="normal" value="1000" />
+            <enum name="fast" value="400" />
+        </attr>
+        <attr name="changeStateType" format="enum">
+            <enum name="flip" value="0" />
+            <enum name="alpha" value="1" />
+            <enum name="scale" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.sadwyn.resultprogressbar.ResultProgressBar
+        android:id="@+id/pb"
+        android:layout_width="@dimen/default_progress_bar_height"
+        android:layout_height="@dimen/default_progress_bar_width"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:failureDrawable="@drawable/ic_fail"
+        app:failureDrawableMargin="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progressDrawableMargin="20dp"
+        app:successDrawable="@drawable/ic_success"
+        app:successDrawableMargin="30dp">
+
+    </com.sadwyn.resultprogressbar.ResultProgressBar>
+
+    <com.sadwyn.resultprogressbar.ResultProgressBar
+        android:id="@+id/pb2"
+        android:layout_width="@dimen/default_progress_bar_height"
+        android:layout_height="@dimen/default_progress_bar_width"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:changeStateType="alpha"
+        app:failureDrawable="@drawable/ic_fail"
+        app:failureDrawableMargin="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progressDrawableMargin="20dp"
+        app:successDrawable="@drawable/ic_success"
+        app:successDrawableMargin="30dp">
+
+    </com.sadwyn.resultprogressbar.ResultProgressBar>
+
+    <com.sadwyn.resultprogressbar.ResultProgressBar
+        android:id="@+id/pb3"
+        android:layout_width="@dimen/default_progress_bar_height"
+        android:layout_height="@dimen/default_progress_bar_width"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:changeStateType="scale"
+        app:failureDrawable="@drawable/ic_fail"
+        app:failureDrawableMargin="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.901"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progressDrawableMargin="20dp"
+        app:successDrawable="@drawable/ic_success"
+        app:successDrawableMargin="30dp">
+
+    </com.sadwyn.resultprogressbar.ResultProgressBar>
+
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/successBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/successBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="Success"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/failureBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/startBtn" />
+
+    <Button
+        android:id="@+id/failureBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="Failure"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/successBtn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

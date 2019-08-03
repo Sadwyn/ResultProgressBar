@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_inner_margin">20dp</dimen>
+    <dimen name="default_progress_bar_width">100dp</dimen>
+    <dimen name="default_progress_bar_height">100dp</dimen>
+</resources>
