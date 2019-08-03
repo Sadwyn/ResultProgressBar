@@ -127,7 +127,7 @@ class ResultProgressBar @JvmOverloads constructor(
         root.cameraDistance = root.width * CAMERA_DISTANCE
         root.animate().withLayer()
             .rotationY(90F)
-            .setDuration(progressSpeed.toLong())
+            .setDuration(300)
             .withEndAction {
                 animatedView.animation?.cancel()
                 animatedView.setBackgroundResource(currentAnimationRes)
@@ -135,7 +135,7 @@ class ResultProgressBar @JvmOverloads constructor(
                 updateMargins()
                 root.animate().withLayer()
                     .rotationY(0F)
-                    .setDuration(progressSpeed.toLong()).withEndAction {
+                    .setDuration(300).withEndAction {
                         listener?.onAnimationResult(currentAnimationRes == successAnimationRes)
                     }
                     .start()
@@ -146,7 +146,7 @@ class ResultProgressBar @JvmOverloads constructor(
         animatedView.animate().withLayer()
             .scaleX(0f)
             .scaleY(0f)
-            .setDuration(progressSpeed.toLong())
+            .setDuration(300)
             .withEndAction {
                 animatedView.animation?.cancel()
                 animatedView.setBackgroundResource(currentAnimationRes)
@@ -154,7 +154,7 @@ class ResultProgressBar @JvmOverloads constructor(
                 animatedView.animate().withLayer()
                     .scaleX(1F)
                     .scaleY(1F)
-                    .setDuration(progressSpeed.toLong()).withEndAction {
+                    .setDuration(300).withEndAction {
                         listener?.onAnimationResult(currentAnimationRes == successAnimationRes)
                     }
                     .start()
@@ -164,14 +164,14 @@ class ResultProgressBar @JvmOverloads constructor(
     protected fun alpha() {
         animatedView.animate().withLayer()
             .alpha(0f)
-            .setDuration(progressSpeed.toLong())
+            .setDuration(300)
             .withEndAction {
                 animatedView.animation?.cancel()
                 animatedView.setBackgroundResource(currentAnimationRes)
                 updateMargins()
                 animatedView.animate().withLayer()
                     .alpha(1F)
-                    .setDuration(progressSpeed.toLong()).withEndAction {
+                    .setDuration(300).withEndAction {
                         listener?.onAnimationResult(currentAnimationRes == successAnimationRes)
                     }
                     .start()
