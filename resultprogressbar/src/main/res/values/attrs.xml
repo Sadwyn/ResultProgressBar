@@ -8,6 +8,12 @@
         <attr name="progressDrawableMargin" format="dimension" />
         <attr name="successDrawableMargin" format="dimension" />
         <attr name="failureDrawableMargin" format="dimension" />
+        <attr name="progressInterpolator" format="enum">
+            <enum name="linear" value="0"/>
+            <enum name="accelerate" value="1"/>
+            <enum name="decelerate" value="2"/>
+            <enum name="accelerate_decelerate" value="3"/>
+        </attr>
         <attr name="progressSpeed" format="enum">
             <enum name="slow" value="1600" />
             <enum name="normal" value="1000" />

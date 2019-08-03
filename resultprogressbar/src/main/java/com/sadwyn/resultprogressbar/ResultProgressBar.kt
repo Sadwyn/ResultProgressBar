@@ -3,12 +3,9 @@ package com.sadwyn.resultprogressbar
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
+import android.view.animation.*
 import android.widget.FrameLayout
 import androidx.core.view.setMargins
-import androidx.core.view.updateMargins
 import kotlinx.android.synthetic.main.result_progress_bar_layout.view.*
 
 class ResultProgressBar @JvmOverloads constructor(
@@ -22,71 +19,89 @@ class ResultProgressBar @JvmOverloads constructor(
     protected var progressDrawableMargin: Int = resources.getDimensionPixelSize(R.dimen.default_inner_margin)
     protected var successDrawableMargin: Int = resources.getDimensionPixelSize(R.dimen.default_inner_margin)
     protected var failureDrawableMargin: Int = resources.getDimensionPixelSize(R.dimen.default_inner_margin)
-    protected var progressSpeed: Int = 700
+    protected var progressSpeed: Int = 1000
+    protected var interpolatorValue: Int = 0
 
-    private var currentAnimationRes: Int = 0
-    private val rotateAnimation = RotateAnimation(
+    protected var currentAnimationRes: Int = 0
+    protected val rotateAnimation = RotateAnimation(
         0F,
         360F,
         Animation.RELATIVE_TO_SELF,
         0.5F, Animation.RELATIVE_TO_SELF,
         0.5F
     )
+    var listener: AnimationListener? = null
 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.result_progress_bar_layout, this, true)
         attrs?.let {
-            val typedArray = context.theme.obtainStyledAttributes(it, R.styleable.ResultProgressBar, defStyleAttr, 0)
-            progressAnimationRes =
-                typedArray.getResourceId(R.styleable.ResultProgressBar_progressDrawable, R.drawable.ic_loading)
-            failureAnimationRes =
-                typedArray.getResourceId(R.styleable.ResultProgressBar_failureDrawable, R.drawable.ic_fail)
-            successAnimationRes =
-                typedArray.getResourceId(R.styleable.ResultProgressBar_successDrawable, R.drawable.ic_success)
-            borderShape = typedArray.getResourceId(R.styleable.ResultProgressBar_borderShape, R.drawable.border)
-
-            changeStateType = typedArray.getInt(R.styleable.ResultProgressBar_changeStateType, 0)
-
-            progressDrawableMargin = typedArray.getDimensionPixelSize(
-                R.styleable.ResultProgressBar_progressDrawableMargin,
-                resources.getDimensionPixelSize(R.dimen.default_inner_margin)
-            )
-            successDrawableMargin = typedArray.getDimensionPixelSize(
-                R.styleable.ResultProgressBar_successDrawableMargin,
-                resources.getDimensionPixelSize(R.dimen.default_inner_margin)
-            )
-            failureDrawableMargin = typedArray.getDimensionPixelSize(
-                R.styleable.ResultProgressBar_failureDrawableMargin,
-                resources.getDimensionPixelSize(R.dimen.default_inner_margin)
-            )
-
-
-            progressSpeed = typedArray.getInteger(R.styleable.ResultProgressBar_progressSpeed, 700)
-
-            typedArray.recycle()
+            getAttrs(context, it, defStyleAttr)
         }
+        initialize()
+    }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        listener = null
+    }
 
+    protected fun getAttrs(context: Context, it: AttributeSet, defStyleAttr: Int) {
+        val typedArray = context.theme.obtainStyledAttributes(it, R.styleable.ResultProgressBar, defStyleAttr, 0)
+        progressAnimationRes =
+            typedArray.getResourceId(R.styleable.ResultProgressBar_progressDrawable, R.drawable.ic_loading)
+        failureAnimationRes =
+            typedArray.getResourceId(R.styleable.ResultProgressBar_failureDrawable, R.drawable.ic_fail)
+        successAnimationRes =
+            typedArray.getResourceId(R.styleable.ResultProgressBar_successDrawable, R.drawable.ic_success)
+        borderShape = typedArray.getResourceId(R.styleable.ResultProgressBar_borderShape, R.drawable.border)
+
+        changeStateType = typedArray.getInteger(R.styleable.ResultProgressBar_changeStateType, 0)
+
+        progressDrawableMargin = typedArray.getDimensionPixelSize(
+            R.styleable.ResultProgressBar_progressDrawableMargin,
+            resources.getDimensionPixelSize(R.dimen.default_inner_margin)
+        )
+        successDrawableMargin = typedArray.getDimensionPixelSize(
+            R.styleable.ResultProgressBar_successDrawableMargin,
+            resources.getDimensionPixelSize(R.dimen.default_inner_margin)
+        )
+        failureDrawableMargin = typedArray.getDimensionPixelSize(
+            R.styleable.ResultProgressBar_failureDrawableMargin,
+            resources.getDimensionPixelSize(R.dimen.default_inner_margin)
+        )
+        progressSpeed = typedArray.getInteger(R.styleable.ResultProgressBar_progressSpeed, 1000)
+        interpolatorValue = typedArray.getInteger(R.styleable.ResultProgressBar_progressInterpolator, 0)
+
+        typedArray.recycle()
+    }
+
+    protected fun initialize() {
         animatedView.setBackgroundResource(progressAnimationRes)
         root.setBackgroundResource(borderShape)
         val params = animatedView.layoutParams as LayoutParams
         params.setMargins(progressDrawableMargin)
+        animatedView.requestLayout()
         rotateAnimation.repeatCount = Animation.INFINITE
-        rotateAnimation.interpolator = LinearInterpolator()
+
+        when (interpolatorValue) {
+            0 -> rotateAnimation.interpolator = LinearInterpolator()
+            1 -> rotateAnimation.interpolator = AccelerateInterpolator()
+            2 -> rotateAnimation.interpolator = DecelerateInterpolator()
+            3 -> rotateAnimation.interpolator = AccelerateDecelerateInterpolator()
+            else -> rotateAnimation.interpolator = LinearInterpolator()
+        }
+
         rotateAnimation.duration = progressSpeed.toLong()
         animatedView.startAnimation(rotateAnimation)
     }
 
     public fun reset() {
         val params = animatedView.layoutParams as LayoutParams
-
-        animatedView.clearAnimation()
-        root.clearAnimation()
         animatedView.setBackgroundResource(progressAnimationRes)
-        animatedView.startAnimation(rotateAnimation)
         params.setMargins(progressDrawableMargin)
         animatedView.requestLayout()
+        animatedView.startAnimation(rotateAnimation)
     }
 
     public fun success() {
@@ -99,6 +114,7 @@ class ResultProgressBar @JvmOverloads constructor(
     }
 
     protected fun finishAnimation(success: Boolean) {
+        animatedView.animation?.cancel()
         currentAnimationRes = if (success) successAnimationRes else failureAnimationRes
         when (changeStateType) {
             0 -> flip()
@@ -107,11 +123,11 @@ class ResultProgressBar @JvmOverloads constructor(
         }
     }
 
-    private fun flip() {
-        root.cameraDistance = root.width * 100F
+    protected fun flip() {
+        root.cameraDistance = root.width * CAMERA_DISTANCE
         root.animate().withLayer()
             .rotationY(90F)
-            .setDuration(300)
+            .setDuration(progressSpeed.toLong())
             .withEndAction {
                 animatedView.animation?.cancel()
                 animatedView.setBackgroundResource(currentAnimationRes)
@@ -119,16 +135,18 @@ class ResultProgressBar @JvmOverloads constructor(
                 updateMargins()
                 root.animate().withLayer()
                     .rotationY(0F)
-                    .setDuration(300).withEndAction { updateMargins() }
+                    .setDuration(progressSpeed.toLong()).withEndAction {
+                        listener?.onAnimationResult(currentAnimationRes == successAnimationRes)
+                    }
                     .start()
             }.start()
     }
 
-    private fun scale() {
+    protected fun scale() {
         animatedView.animate().withLayer()
             .scaleX(0f)
             .scaleY(0f)
-            .setDuration(300)
+            .setDuration(progressSpeed.toLong())
             .withEndAction {
                 animatedView.animation?.cancel()
                 animatedView.setBackgroundResource(currentAnimationRes)
@@ -136,27 +154,31 @@ class ResultProgressBar @JvmOverloads constructor(
                 animatedView.animate().withLayer()
                     .scaleX(1F)
                     .scaleY(1F)
-                    .setDuration(300).withEndAction { updateMargins() }
+                    .setDuration(progressSpeed.toLong()).withEndAction {
+                        listener?.onAnimationResult(currentAnimationRes == successAnimationRes)
+                    }
                     .start()
             }.start()
     }
 
-    private fun alpha() {
+    protected fun alpha() {
         animatedView.animate().withLayer()
             .alpha(0f)
-            .setDuration(300)
+            .setDuration(progressSpeed.toLong())
             .withEndAction {
                 animatedView.animation?.cancel()
                 animatedView.setBackgroundResource(currentAnimationRes)
                 updateMargins()
                 animatedView.animate().withLayer()
                     .alpha(1F)
-                    .setDuration(300).withEndAction { updateMargins() }
+                    .setDuration(progressSpeed.toLong()).withEndAction {
+                        listener?.onAnimationResult(currentAnimationRes == successAnimationRes)
+                    }
                     .start()
             }.start()
     }
 
-    private fun updateMargins() {
+    protected fun updateMargins() {
         val params = animatedView.layoutParams as LayoutParams
         if (currentAnimationRes == successAnimationRes) {
             params.setMargins(successDrawableMargin)
@@ -164,5 +186,14 @@ class ResultProgressBar @JvmOverloads constructor(
             params.setMargins(failureDrawableMargin)
         }
         animatedView.requestLayout()
+    }
+
+
+    interface AnimationListener {
+        fun onAnimationResult(success: Boolean)
+    }
+
+    companion object {
+        const val CAMERA_DISTANCE = 100F
     }
 }
