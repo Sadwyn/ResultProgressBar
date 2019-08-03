@@ -1,6 +1,12 @@
-## ResultProgressBar
+# ResultProgressBar
 ### This library provides easy to use and customizable Progress Bar for Android
 ![resultprogressbar](https://user-images.githubusercontent.com/20640251/62414540-9157b400-b625-11e9-99cb-9d6081d3efb2.gif)
+
+### Setup
+   Add this line to your dependency{} block in app build.gradle file<br>
+   <b>implementation 'com.sadwyn.resultprogressbar:resultprogressbar:1.0.0'</b><br>
+   
+   Also you need to add mavenLocal() repository to your top gradle file.
 
 #### Attributes
 
