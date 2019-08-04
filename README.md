@@ -1,5 +1,7 @@
 # ResultProgressBar
 _This library provides easy to use and customizable Progress Bar for Android_
+<br>
+<br>
 ![resultprogressbar](https://user-images.githubusercontent.com/20640251/62414540-9157b400-b625-11e9-99cb-9d6081d3efb2.gif)
 
 ## Setup
