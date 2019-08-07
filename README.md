@@ -1,4 +1,7 @@
 # ResultProgressBar
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/01075b644de8488d952ad77e1b1dce32)](https://app.codacy.com/app/Sadwyn/ResultProgressBar?utm_source=github.com&utm_medium=referral&utm_content=Sadwyn/ResultProgressBar&utm_campaign=Badge_Grade_Dashboard)
+
 _This library provides easy to use and customizable Progress Bar for Android_
 <br>
 <br>
